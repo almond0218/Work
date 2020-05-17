@@ -1,28 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Nav/>
+    <router-view class="content-block"></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Nav from './components/Nav.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Nav
+  },
+  created () {
+    const refreshToken = this.$store.state.token.refresh
+    if (refreshToken) {
+      const data = {
+        'refresh': refreshToken,
+      }
+      this.$store.dispatch('refreshToken', data)
+    }
+    // this.$store.dispatch('getUser')
   }
 }
 </script>
 
 <style>
-#app {
+html, body {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  width: 100%;
+  height: 100%;
+}
+
+#app .content-block {
+  margin-top: 40px;
 }
 </style>

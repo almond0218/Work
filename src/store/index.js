@@ -109,7 +109,7 @@ const store = new Vuex.Store({
   }
 })
 
-axios.defaults.baseURL = 'https://wc8c0forfd.execute-api.ap-northeast-2.amazonaws.com/prod'
+axios.defaults.baseURL = 'https://wq407gqd87.execute-api.ap-northeast-2.amazonaws.com/prod'
 // axios.defaults.baseURL = 'http://localhost:8000'
 if (store.state.token.access) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token.access}`

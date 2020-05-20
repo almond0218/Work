@@ -5,6 +5,7 @@ import VueCookie from 'vue-cookie'
 import createPersistedState from 'vuex-persistedstate'
 import axios from 'axios'
 import router from '@/router'
+import { format } from 'date-fns'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,12 @@ const store = new Vuex.Store({
     token: {
       access: '',
       refresh: '',
+    },
+    dailyWork: {
+      workTime: 0,
+      weeklyWork: {
+        workTime: 0,
+      },
     },
   },
   plugins: [createPersistedState({
@@ -35,7 +42,10 @@ const store = new Vuex.Store({
     },
     setTokens (state, val) {
       state.token = val
-    }
+    },
+    setDailyWork (state, val) {
+      state.dailyWork = val
+    },
   },
   actions: {
     refreshToken (context, data) {
@@ -73,7 +83,7 @@ const store = new Vuex.Store({
           router.push('/')
         })
     },
-    logout (context, data) {
+    logout (context) {
       context.commit('setIsAuthenticated', false)
       context.commit('setTokens', {
         access: '',
@@ -82,19 +92,29 @@ const store = new Vuex.Store({
     },
     setTokens (context, data) {
       context.commit('setTokens', data)
-      axios.defaults.headers.common['Authorization'] = `Bearer ${context.state.accessToken}`
+      axios.defaults.headers.common['Authorization'] = `Bearer ${context.state.token.access}`
     },
-    startWork () {
-
+    startWork (context) {
+      axios.post('/api/work-time/daily-works/')
+        .then((response) => {
+          context.commit('setDailyWork', response.data)
+        })
     },
-    endWork () {
-
+    endWork (context) {
+      axios.put(`/api/work-time/daily-works/${format(new Date(), 'yyyy-MM-dd')}/`)
+        .then((response) => {
+          context.commit('setDailyWork', response.data)
+        })
     },
   }
 })
 
 // axios.defaults.baseURL = 'https://wc8c0forfd.execute-api.ap-northeast-2.amazonaws.com/prod'
 axios.defaults.baseURL = 'http://localhost:8000'
-axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.accessToken}`
+if (store.state.token.access) {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token.access}`
+} else {
+  axios.defaults.headers.common['Authorization'] = null
+}
 
 export default store

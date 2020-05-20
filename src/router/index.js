@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 
 import Login from '@/components/Login.vue'
 import Register from '@/components/Register.vue'
-import Logout from '@/components/Logout.vue'
 import Main from '@/components/Main.vue'
 
 import store from '@/store'
@@ -16,7 +15,6 @@ const router = new VueRouter({
     { path: '/', component: Main, meta: { requiresAuth: true } },
     { path: '/login', component: Login },
     { path: '/register', component: Register },
-    { path: '/logout', component: Logout },
   ],
 })
 

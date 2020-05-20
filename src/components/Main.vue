@@ -4,17 +4,25 @@
       <b-button class="content__button" size="lg" variant="primary" @click="start">출근</b-button>
       <b-button class="content__button" size="lg" @click="end">퇴근</b-button>
     </div>
+
+    <h1>주간근무시간: {{ dailyWork.weeklyWork.workTime }}</h1>
+    <h1>근무시간: {{ dailyWork.workTime }}</h1>
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    start: () => {
-      console.log('start')
+  computed: {
+    dailyWork () {
+      return this.$store.state.dailyWork
     },
-    end: () => {
-      console.log('end')
+  },
+  methods: {
+    start () {
+      this.$store.dispatch('startWork')
+    },
+    end () {
+      this.$store.dispatch('endWork')
     },
   },
 }
@@ -25,6 +33,7 @@ export default {
   width: 100%;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }

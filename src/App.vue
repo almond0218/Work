@@ -21,7 +21,7 @@ export default {
       }
       this.$store.dispatch('refreshToken', data)
     }
-    // this.$store.dispatch('getUser')
+    this.$store.dispatch('getUser')
   }
 }
 </script>

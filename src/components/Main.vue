@@ -12,6 +12,9 @@
 
 <script>
 export default {
+  mounted () {
+    this.$store.dispatch('getDailyWork')
+  },
   computed: {
     dailyWork () {
       return this.$store.state.dailyWork

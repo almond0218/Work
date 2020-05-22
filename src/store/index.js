@@ -94,6 +94,12 @@ const store = new Vuex.Store({
       context.commit('setTokens', data)
       axios.defaults.headers.common['Authorization'] = `Bearer ${context.state.token.access}`
     },
+    getDailyWork (context) {
+      axios.get(`/api/work-time/daily-works/${format(new Date(), 'yyyy-MM-dd')}/`)
+        .then((response) => {
+          context.commit('setDailyWork', response.data)
+        })
+    },
     startWork (context) {
       axios.post('/api/work-time/daily-works/')
         .then((response) => {
@@ -109,7 +115,7 @@ const store = new Vuex.Store({
   }
 })
 
-axios.defaults.baseURL = 'https://wq407gqd87.execute-api.ap-northeast-2.amazonaws.com/prod'
+axios.defaults.baseURL = 'https://uf1k81q71i.execute-api.ap-northeast-2.amazonaws.com/prod'
 // axios.defaults.baseURL = 'http://localhost:8000'
 if (store.state.token.access) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token.access}`

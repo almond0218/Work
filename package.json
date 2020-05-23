@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "npm run build && aws s3 sync ./dist s3://work.a1m0nd.kr"
+    "deploy": "npm run build && aws s3 sync ./dist s3://work.a1m0nd.kr --delete"
   },
   "dependencies": {
     "axios": "^0.19.0",

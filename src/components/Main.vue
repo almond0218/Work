@@ -13,15 +13,16 @@
 <script>
 export default {
   mounted () {
+    this.$store.dispatch('getWeeklyWork')
     this.$store.dispatch('getDailyWork')
     this.$store.dispatch('getUser')
   },
   computed: {
+    weeklyWorkTime () {
+      return this.$store.state.weeklyWork.workTime.split('.')[0]
+    },
     dailyWorkTime () {
       return this.$store.state.dailyWork.workTime.split('.')[0]
-    },
-    weeklyWorkTime () {
-      return this.$store.state.dailyWork.weeklyWork.workTime.split('.')[0]
     },
   },
   methods: {

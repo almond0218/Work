@@ -5,7 +5,7 @@ import VueCookie from 'vue-cookie'
 import createPersistedState from 'vuex-persistedstate'
 import axios from 'axios'
 import router from '@/router'
-import { format } from 'date-fns'
+import { format, getYear, getWeek } from 'date-fns'
 
 Vue.use(Vuex)
 
@@ -19,9 +19,9 @@ const store = new Vuex.Store({
     },
     dailyWork: {
       workTime: '0',
-      weeklyWork: {
-        workTime: '0',
-      },
+    },
+    weeklyWork: {
+      workTime: '0',
     },
   },
   plugins: [createPersistedState({
@@ -42,6 +42,9 @@ const store = new Vuex.Store({
     },
     setTokens (state, val) {
       state.token = val
+    },
+    setWeeklyWork (state, val) {
+      state.weeklyWork = val
     },
     setDailyWork (state, val) {
       state.dailyWork = val
@@ -94,6 +97,21 @@ const store = new Vuex.Store({
       context.commit('setTokens', data)
       axios.defaults.headers.common['Authorization'] = `Bearer ${context.state.token.access}`
     },
+    getWeeklyWork (context) {
+      const date = new Date()
+      axios.get(`/api/work-time/weekly-works/?year=${getYear(date)}&week=${getWeek(date)}/`)
+        .then((response) => {
+          context.commit('setWeeklyWork', response.data[0])
+        })
+        .catch((error) => {
+          if (error.response.status === 404) {
+            const data = {
+              workTime: '0',
+            }
+            context.commit('setWeeklyWork', data)
+          }
+        })
+    },
     getDailyWork (context) {
       axios.get(`/api/work-time/daily-works/${format(new Date(), 'yyyy-MM-dd')}/`)
         .then((response) => {
@@ -103,9 +121,6 @@ const store = new Vuex.Store({
           if (error.response.status === 404) {
             const data = {
               workTime: '0',
-              weeklyWork: {
-                workTime: '0',
-              },
             }
             context.commit('setDailyWork', data)
           }
@@ -115,12 +130,14 @@ const store = new Vuex.Store({
       axios.post('/api/work-time/daily-works/')
         .then((response) => {
           context.commit('setDailyWork', response.data)
+          context.dispatch('getWeeklyWork')
         })
     },
     endWork (context) {
       axios.put(`/api/work-time/daily-works/${format(new Date(), 'yyyy-MM-dd')}/`)
         .then((response) => {
           context.commit('setDailyWork', response.data)
+          context.dispatch('getWeeklyWork')
         })
     },
   }

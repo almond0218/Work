@@ -18,9 +18,9 @@ const store = new Vuex.Store({
       refresh: '',
     },
     dailyWork: {
-      workTime: 0,
+      workTime: '0',
       weeklyWork: {
-        workTime: 0,
+        workTime: '0',
       },
     },
   },
@@ -102,9 +102,9 @@ const store = new Vuex.Store({
         .catch((error) => {
           if (error.response.status === 404) {
             const data = {
-              workTime: 0,
+              workTime: '0',
               weeklyWork: {
-                workTime: 0,
+                workTime: '0',
               },
             }
             context.commit('setDailyWork', data)

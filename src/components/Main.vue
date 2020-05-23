@@ -5,8 +5,8 @@
       <b-button class="content__button" size="lg" @click="end">퇴근</b-button>
     </div>
 
-    <h1>주간근무시간: {{ dailyWork.weeklyWork.workTime }}</h1>
-    <h1>근무시간: {{ dailyWork.workTime }}</h1>
+    <h1>주간근무시간: {{ weeklyWorkTime }}</h1>
+    <h1>근무시간: {{ dailyWorkTime }}</h1>
   </div>
 </template>
 
@@ -17,8 +17,11 @@ export default {
     this.$store.dispatch('getUser')
   },
   computed: {
-    dailyWork () {
-      return this.$store.state.dailyWork
+    dailyWorkTime () {
+      return this.$store.state.dailyWork.workTime.split('.')[0]
+    },
+    weeklyWorkTime () {
+      return this.$store.state.dailyWork.weeklyWork.workTime.split('.')[0]
     },
   },
   methods: {

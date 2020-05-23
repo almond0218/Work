@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  name: 'Main',
   mounted () {
     this.$store.dispatch('getWeeklyWork')
     this.$store.dispatch('getDailyWork')

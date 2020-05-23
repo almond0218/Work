@@ -22,6 +22,7 @@
 
 <script>
 export default {
+  name: 'Nav',
   methods: {
     logout () {
       this.$store.commit('setIsAuthenticated', false)

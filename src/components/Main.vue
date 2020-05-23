@@ -14,6 +14,7 @@
 export default {
   mounted () {
     this.$store.dispatch('getDailyWork')
+    this.$store.dispatch('getUser')
   },
   computed: {
     dailyWork () {

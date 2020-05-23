@@ -23,7 +23,6 @@ router.beforeEach((to, from, next) => {
     if (!store.state.isAuthenticated) {
       next({
         path: '/login',
-        query: { redirect: to.fullPath }
       })
     } else {
       next()

@@ -99,6 +99,17 @@ const store = new Vuex.Store({
         .then((response) => {
           context.commit('setDailyWork', response.data)
         })
+        .catch((error) => {
+          if (error.response.status === 404) {
+            const data = {
+              workTime: 0,
+              weeklyWork: {
+                workTime: 0,
+              },
+            }
+            context.commit('setDailyWork', data)
+          }
+        })
     },
     startWork (context) {
       axios.post('/api/work-time/daily-works/')

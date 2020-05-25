@@ -43,6 +43,9 @@ const store = new Vuex.Store({
     setTokens (state, val) {
       state.token = val
     },
+    setAccessToken (state, val) {
+      state.token.access = val
+    },
     setWeeklyWork (state, val) {
       state.weeklyWork = val
     },
@@ -54,7 +57,7 @@ const store = new Vuex.Store({
     refreshToken (context, data) {
       axios.post('/api/token/refresh/', data)
         .then((response) => {
-          context.dispatch('setTokens', response.data)
+          context.dispatch('setAccessToken', response.data)
           context.commit('setIsAuthenticated', true)
         })
         .catch((error) => {

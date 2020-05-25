@@ -99,7 +99,7 @@ const store = new Vuex.Store({
     },
     getWeeklyWork (context) {
       const date = new Date()
-      axios.get(`/api/work-time/weekly-works/?year=${getYear(date)}&week=${getWeek(date)}/`)
+      axios.get(`/api/work-time/weekly-works/?year=${getYear(date)}&week=${getWeek(date)}`)
         .then((response) => {
           context.commit('setWeeklyWork', response.data[0])
         })

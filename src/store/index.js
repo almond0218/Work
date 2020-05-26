@@ -57,7 +57,7 @@ const store = new Vuex.Store({
     refreshToken (context, data) {
       axios.post('/api/token/refresh/', data)
         .then((response) => {
-          context.dispatch('setAccessToken', response.data)
+          context.commit('setAccessToken', response.data.access)
           context.commit('setIsAuthenticated', true)
         })
         .catch((error) => {
@@ -104,14 +104,12 @@ const store = new Vuex.Store({
       const date = new Date()
       axios.get(`/api/work-time/weekly-works/?year=${getYear(date)}&week=${getWeek(date)}`)
         .then((response) => {
-          context.commit('setWeeklyWork', response.data[0])
-        })
-        .catch((error) => {
-          if (error.response.status === 404) {
-            const data = {
+          if (response.data.length > 0) {
+            context.commit('setWeeklyWork', response.data[0])
+          } else {
+            context.commit('setWeeklyWork', {
               workTime: '0',
-            }
-            context.commit('setWeeklyWork', data)
+            })
           }
         })
     },
@@ -122,10 +120,9 @@ const store = new Vuex.Store({
         })
         .catch((error) => {
           if (error.response.status === 404) {
-            const data = {
+            context.commit('setDailyWork', {
               workTime: '0',
-            }
-            context.commit('setDailyWork', data)
+            })
           }
         })
     },

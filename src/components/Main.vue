@@ -20,10 +20,10 @@ export default {
   },
   computed: {
     weeklyWorkTime () {
-      return this.$store.state.weeklyWork.workTime.split('.')[0]
+      return this.$store.state.weeklyWork.workTime
     },
     dailyWorkTime () {
-      return this.$store.state.dailyWork.workTime.split('.')[0]
+      return this.$store.state.dailyWork.workTime
     },
   },
   methods: {
